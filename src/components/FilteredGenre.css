@@ -1,0 +1,149 @@
+@font-face {
+  font-family: Poppins-Semibold;
+  src: url('../assets/fonts/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../assets/fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../assets/fonts/Poppins-Bold.ttf');
+}
+
+.home-layout {
+  display: flex;
+  width: 100%;
+}
+
+.filtered-genre-container {
+  position: relative;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+
+  /* Fixed height to maintain consistency */
+  height: 1045px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 20px 0 0 80px; /* Center the container */
+  padding: 20px;
+  max-width: 1500px; /* Updated for 9 columns */
+}
+
+/* Title styling */
+.filtered-title {
+  font-size: 30px;
+  font-family: Poppins-Bold;
+  color: #f4f4f4;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  text-align: left; /* Align title to the left */
+}
+
+/* Manhwa grid with 9 columns */
+.filtered-manhwa-wrapper {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* Fixed 9 columns */
+  justify-content: center;
+  gap: 15px; /* Add space between items */
+  padding: 10px;
+  margin: 0 auto;
+  max-width: 1350px; /* Updated max width to fit 9 columns */
+}
+
+/* Consistent size for each manhwa item */
+.filtered-manhwa-item {
+  width: 140px; /* Fixed width for each item */
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #262626;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.filtered-manhwa-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Manhwa images with consistent size */
+.filtered-manhwa-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ✅ Keeps image ratio */
+  border-radius: 8px;
+}
+
+/* Overlay for title with fading effect */
+.filtered-manhwa-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0) 100%);
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.filtered-manhwa-title {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-family: Poppins-Semibold;
+}
+
+/* No results message */
+.no-results {
+  color: #ff4d4f;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+/* Pagination button style */
+.pagination-button {
+  font-family: Poppins-Semibold;
+  font-size: 15px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 40px;
+}
+
+.pagination-button:hover {
+  background-color: #2b7a84;
+}
+
+.pagination-button.active {
+  background-color: #5ccfe6;
+}

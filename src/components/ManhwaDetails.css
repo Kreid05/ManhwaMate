@@ -1,0 +1,195 @@
+@font-face {
+  font-family: Poppins-Semibold;
+  src: url('../assets/fonts/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../assets/fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../assets/fonts/Poppins-Bold.ttf');
+}
+
+.manhwa-details-container {
+  display: flex;
+  background-color: #d9f0f0;
+  border-radius: 30px;
+  width: 1300px;
+  color: #222;
+  font-family: 'Poppins', sans-serif;
+  height: 800px; /* fixed height for modal */
+  box-sizing: border-box;
+}
+
+.manhwa-left-panel {
+  background-color: #17252A;
+  color: white;
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px 20px 20px;
+  align-items: center;
+  height: 100%; /* full height of container */
+  box-sizing: border-box;
+  overflow: hidden; /* prevent scrolling */
+}
+
+.manhwa-cover-image {
+  width: 220px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.manhwa-title {
+  font-family: Poppins-Bold;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.manhwa-author {
+  font-style: italic;
+  font-family: Poppins-Regular;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.manhwa-genres {
+  font-size: 0.9rem;
+  font-family: Poppins-Regular;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.manhwa-chapters-status {
+  font-size: 0.85rem;
+  font-family: Poppins-Regular;
+  text-align: center;
+  line-height: 1.4;
+} 
+
+.manhwa-right-panel {
+  background-color: #DEF2F1;
+  padding: 20px;
+  flex: 1;
+  color: #222;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  height: 100%; /* full height of container */
+  overflow-y: auto; /* scrollable */
+  box-sizing: border-box;
+}
+
+.section-heading {
+  background-color: #7ac7c7;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: Poppins-Regular;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #222;
+}
+
+.manhwa-summary-section p {
+  margin-bottom: 12px;
+  font-family: Poppins-Regular;
+  white-space: pre-line;
+}
+
+.manhwa-info-section h3 {
+  margin-top: 20px;
+  font-family: Poppins-Bold;
+  margin-bottom: 6px;
+}
+
+.manhwa-info-section p {
+  margin: 0 0 12px 0;
+  font-family: Poppins-Regular;
+  white-space: pre-line;
+}
+
+.publisher-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.publisher-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: white;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.publisher-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  object-fit: contain;
+  margin-right: 8px;
+}
+
+/* Specific button styles based on site name */
+.publisher-button-anilist {
+  background-color: #2a9df4;
+}
+
+.publisher-button-animeplanet {
+  background-color: #f15a24;
+}
+
+.publisher-button-bookwalker {
+  background-color: #ff6f61;
+}
+
+.publisher-button-mangaupdates {
+  background-color: #4caf50;
+}
+
+.publisher-button-novelupdates {
+  background-color: #ff9800;
+}
+
+.publisher-button-kitsu {
+  background-color: #00bcd4;
+}
+
+.publisher-button-amazon {
+  background-color: #ff9900;
+}
+
+.publisher-button-ebookjapan {
+  background-color: #9c27b0;
+}
+
+.publisher-button-myanimelist {
+  background-color: #2e51a2;
+}
+
+.publisher-button-cdjapan {
+  background-color: #009688;
+}
+
+.publisher-button-raw {
+  background-color: #607d8b;
+}
+
+.publisher-button-englishlicensed {
+  background-color: #3f51b5;
+}
+
+/* Hover effect */
+.publisher-button:hover {
+  filter: brightness(85%);
+}

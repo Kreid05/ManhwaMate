@@ -1,0 +1,72 @@
+.about-page-container {
+  background-color: #d9efef;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-card {
+  background-color: white;
+  margin-top: 80px;
+  border-radius: 15px;
+  padding: 40px 60px;
+  max-width: 1500px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.about-logo {
+  max-width: 600px;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.about-description {
+  font-family: Poppins-Regular;
+  font-weight: 400;
+  font-size: 20px;
+  color: #222222;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+.about-footer {
+  font-family: Poppins-Regular;
+  color: #222222;
+}
+
+.footer-year {
+  font-size: 20px;
+  font-family: Poppins-Bold;
+  margin-bottom: 30px;
+}
+
+.footer-developer {
+  font-family: Poppins-Regular;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.footer-developer strong {
+  display: block;
+  font-family: Poppins-Bold;
+  margin-bottom: 5px;
+}
+
+.footer-social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-social-icons a {
+  color: #3b3b3b;
+  font-size: 28px;
+  transition: color 0.3s ease;
+}
+
+.footer-social-icons a:hover {
+  color: #0077ff;
+}
