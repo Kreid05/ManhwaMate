@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     methods: ['GET', 'POST'],
   },
 });
@@ -32,20 +32,29 @@ const getGenreId = (genre) => {
   const genreMap = {
     Action: '391b0423-d847-456f-aff0-8b0cfc03066b',
     Adventure: '4d32cc48-9f00-4cca-9b5a-a839f0764984',
+    BoysLove: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0a',
     Comedy: '4d32cc48-9f00-4cca-9b5a-a839f0764984',
+    Crime: 'b9af3a63-f058-46de-a9a0-e0c13906197a',
     Drama: 'b9af3a63-f058-46de-a9a0-e0c13906197a',
     Fantasy: 'cdc58593-87dd-415e-bbc0-2ec27bf404cc',
+    GirlsLove: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0b',
     Historical: '33771934-028e-4cb3-8744-691e866a923e',
     Horror: 'cdad7e68-1419-41dd-bdce-27753074a640',
     Isekai: 'ace04997-f6bd-436e-b261-779182193d3d',
     'Magical Girls': '81c836c9-914a-4eca-981a-560dad663e73',
     Mecha: 'caaa44eb-cd40-4177-b930-79d3ef2afe87',
+    Medical: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0c',
     Mystery: 'ee968100-4191-4968-93d3-f82d72be7e46',
     Philosophical: 'a1f53773-c69a-4ce5-8cab-fffcd90b1565',
+    Psychological: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0d',
     Romance: '423e2eae-a7a2-4a8b-ac03-a8351462d71d',
     SciFi: '256c8bd9-4904-4360-bf4f-508a76d67183',
+    SliceOfLife: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0e',
     Sports: 'a3c67850-4684-404e-9b7f-c69850ee5da6',
+    Superhero: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a0f',
     Thriller: '07251805-a27e-4d59-b488-f0bfbec15168',
+    Tragedy: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a10',
+    Wuxia: 'a1a5e3a3-1a0a-4a0a-8a0a-1a0a1a0a1a11',
   };
 
   return genreMap[genre] || '';
@@ -330,14 +339,33 @@ io.on('connection', (socket) => {
 
 
   // Chatbot API route
+  // In-memory conversation history store keyed by session ID
+  const conversationHistories = {};
+
   app.post('/api/chatbot', async (req, res) => {
-    const { message } = req.body;
+    const { message, sessionId } = req.body;
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
+    // Use provided sessionId or fallback to 'default'
+    const sessionKey = sessionId || 'default';
+
+    // Initialize conversation history if not present
+    if (!conversationHistories[sessionKey]) {
+      conversationHistories[sessionKey] = [];
+    }
+
+    // Append user message to conversation history
+    conversationHistories[sessionKey].push({ role: 'user', content: message });
+
     try {
-      const reply = await getChatbotResponse(message);
+      // Pass the full conversation history to getChatbotResponse
+      const reply = await getChatbotResponse(conversationHistories[sessionKey]);
+
+      // Append bot reply to conversation history
+      conversationHistories[sessionKey].push({ role: 'bot', content: reply });
+
       res.json({ reply });
     } catch (error) {
       console.error('Error in chatbot route:', error.message);
@@ -346,7 +374,7 @@ io.on('connection', (socket) => {
   });
 
 
-// New API endpoint to get detailed manhwa info by ID
+    // New API endpoint to get detailed manhwa info by ID
 app.get('/api/manhwa/:id', async (req, res) => {
   const manhwaId = req.params.id;
 
@@ -383,9 +411,25 @@ app.get('/api/manhwa/:id', async (req, res) => {
       .map((publisher) => publisher.attributes.name);
 
     // Extract tags as array of objects with name property
-    const tags = manga.relationships
+    const allTags = manga.relationships
       .filter((rel) => rel.type === 'tag')
       .map((tag) => ({ name: tag.attributes.name.en || 'Unknown' }));
+
+    // Define genre keys based on genreMap keys
+    const genreKeys = [
+      'action', 'adventure', 'boyslove', 'comedy', 'crime', 'drama', 'fantasy', 'girlslove',
+      'historical', 'horror', 'isekai', 'magicalgirls', 'mecha', 'medical', 'mystery',
+      'philosophical', 'psychological', 'romance', 'scifi', 'sliceoflife', 'sports',
+      'superhero', 'thriller', 'tragedy', 'wuxia'
+    ];
+
+    // Helper function to normalize strings: lowercase, remove spaces, apostrophes, hyphens
+    const normalize = (str) => str.toLowerCase().replace(/[\s'-]/g, '');
+
+    // Filter tags to only include genres with normalized comparison
+    const genres = allTags
+      .filter(tag => genreKeys.includes(normalize(tag.name)))
+      .map(tag => tag.name);
 
     // Extract associated names (alternative titles)
     const associatedNames = [];
@@ -463,7 +507,8 @@ app.get('/api/manhwa/:id', async (req, res) => {
       author,
       artist,
       publishers,
-      tags,
+      tags: allTags,
+      genres,
       associatedNames,
       status,
       summary,

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './FilteredGenre.css';
 import axios from 'axios';
+import ManhwaDetails from './ManhwaDetails';  // Import ManhwaDetails component
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 // Maximum Title Length before truncation
 const MAX_TITLE_LENGTH = 25;
@@ -17,6 +19,7 @@ function FilteredGenre({ selectedGenre }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedManhwa, setSelectedManhwa] = useState(null);  // State for selected manhwa modal
   const itemsPerPage = 36;
 
   // Fetch manhwas by selected genre
@@ -40,6 +43,22 @@ function FilteredGenre({ selectedGenre }) {
     fetchGenreManhwas();
   }, [selectedGenre]);
 
+  // Handle manhwa click to show details modal
+  const handleManhwaClick = async (manhwa) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/manhwa/${manhwa.id}`);
+      setSelectedManhwa(response.data);
+    } catch (error) {
+      console.error('Error fetching detailed manhwa:', error);
+      setSelectedManhwa(manhwa); // fallback to existing data if detailed fetch fails
+    }
+  };
+
+  // Handle closing the modal
+  const handleBackFromDetails = () => {
+    setSelectedManhwa(null);
+  };
+
   // Get current items for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -54,7 +73,13 @@ function FilteredGenre({ selectedGenre }) {
 
       {/* Show loading spinner */}
       {loading ? (
-        <p className="loading-text">Loading {selectedGenre} manhwas...</p>
+        <div className="loading-animation-container">
+          <DotLottieReact
+            src="https://lottie.host/4e0be6ca-f4d1-46f6-9158-048f7d94cf72/NsXuCv2WKG.lottie"
+            loop
+            autoplay
+          />
+        </div>
       ) : error ? (
         <p className="error-text">{error}</p>
       ) : (
@@ -62,7 +87,12 @@ function FilteredGenre({ selectedGenre }) {
           <div className="filtered-manhwa-wrapper">
             {currentManhwas.length > 0 ? (
               currentManhwas.map((manhwa) => (
-                <div key={manhwa.id} className="filtered-manhwa-item">
+                <div
+                  key={manhwa.id}
+                  className="filtered-manhwa-item"
+                  onClick={() => handleManhwaClick(manhwa)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <img
                     src={manhwa.cover}
                     alt={manhwa.title}
@@ -99,6 +129,15 @@ function FilteredGenre({ selectedGenre }) {
             </div>
           )}
         </>
+      )}
+
+      {/* Modal for Manhwa Details */}
+      {selectedManhwa && (
+        <div className="modal-overlay" onClick={handleBackFromDetails}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <ManhwaDetails manhwa={selectedManhwa} onBack={handleBackFromDetails} />
+          </div>
+        </div>
       )}
     </div>
   );

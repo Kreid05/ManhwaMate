@@ -1,0 +1,18 @@
+onClick={() => handleIconClick('/about')}
+            className={`nav-button ${isActive('/about') ? 'active' : ''}`}
+          >
+            <FaInfoCircle className={`header-icon ${rotatingButton === '/about' ? 'rotate' : ''}`} /> About
+          </button>
+=======
+          <button
+            onClick={() => handleIconClick('/about')}
+            className={`nav-button ${isActive('/about') ? 'active' : ''}`}
+          >
+            <FaInfoCircle className={`header-icon ${rotatingButton === '/about' ? 'rotate' : ''}`} /> About
+          </button>
+          <button
+            onClick={() => handleIconClick('/profile')}
+            className={`nav-button ${isActive('/profile') ? 'active' : ''}`}
+          >
+            <FaUser className={`header-icon ${rotatingButton === '/profile' ? 'rotate' : ''}`} /> Profile
+          </button>

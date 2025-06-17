@@ -293,17 +293,7 @@
   z-index: 2;
 }
 
-.latest-manhwa-title {
-  font-family: Poppins-Bold;
-  font-size: 12px;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  max-width: 95%;
-}
-
+/* Latest Manhwa Title */
 .latest-manhwa-title {
   font-family: Poppins-Bold;
   font-size: 12px;
@@ -312,15 +302,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  max-width: 95%;
+  max-width: 100%;
 }
 
-.latest-manhwa-chapter {
-  margin: 0;
-  font-size: 12px;
-  font-family: Poppins-Regular;
-}
-
+/* Latest Manhwa Chapter */
 .latest-manhwa-chapter {
   margin: 0;
   font-size: 12px;
@@ -328,15 +313,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* Latest Manhwa Title */
-.latest-manhwa-title {
-  font-family: Poppins-Bold;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  width: 100%;
-  max-width: 95%;
 }
 
 /* Popular Wrapper */
@@ -420,6 +396,7 @@
 /* Popular Chapter and Summary */
 .popular-chapter,
 .popular-summary {
+  font-family: Poppins-Regular;
   font-size: 12px;
   margin: 0;
   color: #feffff;
@@ -428,8 +405,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 /* Popular Manhwa Info: Right-Aligned */

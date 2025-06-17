@@ -147,3 +147,10 @@
 .pagination-button.active {
   background-color: #5ccfe6;
 }
+
+.loading-animation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Reduced height to make it smaller */
+}
