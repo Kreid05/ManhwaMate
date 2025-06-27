@@ -72,14 +72,19 @@ const fetchFeaturedManhwas = async () => {
       },
     });
 
-    featuredManhwas = response.data.data.map((manga) => ({
-      id: manga.id,
-      title: manga.attributes.title.en || 'No title available',
-      cover: manga.relationships.find((rel) => rel.type === 'cover_art')
-        ? `https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === 'cover_art').attributes.fileName}`
-        : 'https://via.placeholder.com/150',
-      summary: manga.attributes.description?.en || 'No summary available',
-    }));
+featuredManhwas = response.data.data.map((manga) => {
+  const coverRel = manga.relationships.find((rel) => rel.type === 'cover_art');
+  const coverUrl = coverRel
+    ? `https://uploads.mangadex.org/covers/${manga.id}/${coverRel.attributes.fileName}`
+    : 'https://via.placeholder.com/150';
+  console.log(`Featured Manhwa cover URL for ${manga.id}: ${coverUrl}`);
+  return {
+    id: manga.id,
+    title: manga.attributes.title.en || 'No title available',
+    cover: coverUrl,
+    summary: manga.attributes.description?.en || 'No summary available',
+  };
+});
   } catch (err) {
     console.error('Error fetching featured manhwa:', err.message);
   }
