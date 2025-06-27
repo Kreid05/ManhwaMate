@@ -122,18 +122,25 @@ function Header() {
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          {showResults && searchResults.length > 0 && (
+          {showResults && (
             <ul className="search-results-list">
-              {searchResults.map((result) => (
-                <li
-                  key={result.id}
-                  className="search-result-item"
-                  onMouseDown={() => handleResultClick(result.id)}
-                >
-                  <img src={result.cover} alt={result.title} className="search-result-cover" />
-                  <span className="search-result-title">{result.title}</span>
-                </li>
-              ))}
+              {searchResults.length > 0 ? (
+                searchResults.map((result) => (
+                  <li
+                    key={result.id}
+                    className="search-result-item"
+                    onMouseDown={() => handleResultClick(result.id)}
+                  >
+                    <img src={result.cover} alt={result.title} className="search-result-cover" />
+                    <div className="search-result-info">
+                      <span className="search-result-title">{result.title}</span>
+                      <span className="search-result-author">Author: {result.author}</span>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className="no-results">No results found.</li>
+              )}
             </ul>
           )}
         </div>

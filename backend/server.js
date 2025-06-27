@@ -234,7 +234,7 @@ app.get('/api/genre-manhwa', async (req, res) => {
         limit: 100,
         includedTags: [genreId],
         includes: ['cover_art'],
-        contentRating: ['safe', 'suggestive', 'erotica', 'pornographic'],
+        contentRating: ['safe', 'suggestive'],
         order: { followedCount: 'desc' },
       },
     });
@@ -524,7 +524,6 @@ app.get('/api/manhwa/:id', async (req, res) => {
   }
 });
 
-// New API endpoint for searching manhwa by title
 app.get('/api/search-manhwa', async (req, res) => {
   const query = req.query.q;
   if (!query) {
@@ -535,23 +534,69 @@ app.get('/api/search-manhwa', async (req, res) => {
     const response = await axios.get(`${MANGADEX_API_URL}/manga`, {
       params: {
         limit: 10,
-        includes: ['cover_art'],
-        contentRating: ['safe', 'suggestive', 'erotica', 'pornographic'],
+        includes: ['cover_art', 'author', 'artist'],
+        contentRating: ['safe', 'suggestive'],
         order: { relevance: 'desc' },
-        'title': query,
+        // Use filter object for title search as per Mangadex API docs
+        'filter[title]': query,
       },
     });
 
-    const results = response.data.data.map((manga) => {
-      const coverRel = manga.relationships.find((rel) => rel.type === 'cover_art');
-      return {
-        id: manga.id,
-        title: manga.attributes.title.en || 'No title available',
-        cover: coverRel
-          ? `https://uploads.mangadex.org/covers/${manga.id}/${coverRel.attributes.fileName}`
-          : 'https://via.placeholder.com/150',
-      };
-    });
+    const results = await Promise.all(
+      response.data.data.map(async (manga) => {
+        const coverRel = manga.relationships.find((rel) => rel.type === 'cover_art');
+        const authorRel = manga.relationships.find((rel) => rel.type === 'author');
+        const artistRel = manga.relationships.find((rel) => rel.type === 'artist');
+
+        // Fetch statistics for rating and votes
+        let rating = null;
+        let votes = 0;
+        try {
+          const statsResponse = await axios.get(`${MANGADEX_API_URL}/statistics/manga/${manga.id}`);
+          const statsData = statsResponse.data.statistics[manga.id];
+          rating = statsData.rating?.bayesian || null;
+          votes = statsData.rating?.votes || 0;
+        } catch (err) {
+          console.error(`Error fetching stats for ${manga.id}:`, err.message);
+        }
+
+        // Fetch chapter count for views (approximate)
+        let views = 0;
+        try {
+          const chapterResponse = await axios.get(`${MANGADEX_API_URL}/chapter`, {
+            params: {
+              manga: manga.id,
+              translatedLanguage: ['en'],
+              limit: 100,
+            },
+          });
+          views = chapterResponse.data.total || 0;
+        } catch (err) {
+          console.error(`Error fetching chapters for ${manga.id}:`, err.message);
+        }
+
+        // Status from attributes
+        const status = manga.attributes.status || 'Unknown';
+
+        // Comments count is not available from Mangadex API, set to 0 or placeholder
+        const comments = 0;
+
+        return {
+          id: manga.id,
+          title: manga.attributes.title.en || 'No title available',
+          cover: coverRel
+            ? `https://uploads.mangadex.org/covers/${manga.id}/${coverRel.attributes.fileName}`
+            : 'https://via.placeholder.com/150',
+          author: authorRel ? authorRel.attributes.name : 'Unknown Author',
+          artist: artistRel ? artistRel.attributes.name : 'Unknown Artist',
+          rating: rating !== null ? parseFloat(rating) : 0,
+          votes,
+          views,
+          comments,
+          status,
+        };
+      })
+    );
 
     res.json(results);
   } catch (error) {
