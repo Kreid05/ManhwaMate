@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "echo \"Building the backend...\"",
   },
   "keywords": [],
   "author": "",
