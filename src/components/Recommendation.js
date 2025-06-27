@@ -37,7 +37,7 @@ function Recommendation() {
       // Prepend instruction to restrict chatbot content to Manhwa/Manga/Manhua topics only
       const prompt = "You are a helpful chatbot that only talks about Manhwa, Manga, and Manhua. Please only respond about these topics. User: " + userInput;
 
-      const response = await axios.post('http://localhost:5000/api/chatbot', { message: prompt });
+      const response = await axios.post('https://manhwamate-1.onrender.com/api/chatbot', { message: prompt });
       const botResponse = {
         text: response.data.reply,
         sender: 'bot',
@@ -56,7 +56,7 @@ function Recommendation() {
 
   const handleSurpriseClick = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/random-manhwa');
+      const response = await axios.get('https://manhwamate-1.onrender.com/api/random-manhwa');
       const data = response.data;
       setSurpriseTitle(data.title);
       setIsSurprised(true);

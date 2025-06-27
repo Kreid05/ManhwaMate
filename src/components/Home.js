@@ -43,9 +43,9 @@ function Home() {
     try {
       const timestamp = new Date().getTime(); // Add timestamp to avoid cache
       const [featuredResponse, latestResponse, popularResponse] = await Promise.all([
-        axios.get(`http://localhost:5000/api/featured-manhwa?nocache=${timestamp}`),
-        axios.get(`http://localhost:5000/api/latest-manhwa?nocache=${timestamp}`),
-        axios.get(`http://localhost:5000/api/popular-manhwa?nocache=${timestamp}`),
+        axios.get(`https://manhwamate-1.onrender.com/api/featured-manhwa?nocache=${timestamp}`),
+        axios.get(`https://manhwamate-1.onrender.com/api/latest-manhwa?nocache=${timestamp}`),
+        axios.get(`https://manhwamate-1.onrender.com/popular-manhwa?nocache=${timestamp}`),
       ]);
 
       setFeaturedManhwas(featuredResponse.data);
@@ -61,7 +61,7 @@ function Home() {
     fetchManhwaData();
 
     // Connect to WebSocket for real-time updates
-    const socket = io('http://localhost:5000');
+    const socket = io('https://manhwamate-1.onrender.com/');
 
     // Listen for real-time updates for all manhwa categories
     socket.on('update-manhwa', (data) => {
@@ -113,7 +113,7 @@ function Home() {
   // Handle manhwa click to show details
   const handleManhwaClick = async (manhwa) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/manhwa/${manhwa.id}`);
+      const response = await axios.get(`https://manhwamate-1.onrender.com/api/manhwa/${manhwa.id}`);
       setSelectedManhwa(response.data);
     } catch (error) {
       console.error('Error fetching detailed manhwa:', error);

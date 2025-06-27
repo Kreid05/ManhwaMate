@@ -28,7 +28,7 @@ function FilteredGenre({ selectedGenre }) {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:5000/api/genre-manhwa', {
+        const response = await axios.get('https://manhwamate-1.onrender.com/api/genre-manhwa', {
           params: { genre: selectedGenre },
         });
         setManhwas(response.data);
@@ -46,7 +46,7 @@ function FilteredGenre({ selectedGenre }) {
   // Handle manhwa click to show details modal
   const handleManhwaClick = async (manhwa) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/manhwa/${manhwa.id}`);
+      const response = await axios.get(`https://manhwamate-1.onrender.com/api/manhwa/${manhwa.id}`);
       setSelectedManhwa(response.data);
     } catch (error) {
       console.error('Error fetching detailed manhwa:', error);
