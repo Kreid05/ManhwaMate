@@ -45,7 +45,7 @@ function Home() {
       const [featuredResponse, latestResponse, popularResponse] = await Promise.all([
         axios.get(`https://manhwamate-1.onrender.com/api/featured-manhwa?nocache=${timestamp}`),
         axios.get(`https://manhwamate-1.onrender.com/api/latest-manhwa?nocache=${timestamp}`),
-        axios.get(`https://manhwamate-1.onrender.com/popular-manhwa?nocache=${timestamp}`),
+        axios.get(`https://manhwamate-1.onrender.com/api/popular-manhwa?nocache=${timestamp}`),
       ]);
 
       setFeaturedManhwas(featuredResponse.data);
