@@ -15,6 +15,15 @@ const truncateTitle = (title) => {
 };
 
 function FilteredGenre({ selectedGenre }) {
+  // Helper function to prepend CORS proxy to cover URLs
+  const getCorsProxyUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http')) {
+      return `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+    }
+    return url;
+  };
+
   const [manhwas, setManhwas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -94,7 +103,7 @@ function FilteredGenre({ selectedGenre }) {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    src={manhwa.cover}
+                    src={getCorsProxyUrl(manhwa.cover)}
                     alt={manhwa.title}
                     className="filtered-manhwa-image"
                   />
