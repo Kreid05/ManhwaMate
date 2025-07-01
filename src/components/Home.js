@@ -17,6 +17,16 @@ const truncateSummary = (summary) => {
 
 // Maximum Title Length before truncation
 const MAX_TITLE_LENGTH = 30;
+
+// Helper function to prepend CORS proxy to cover URLs
+const getCorsProxyUrl = (url) => {
+  if (!url) return '';
+  // Only prepend proxy if URL is external (starts with http)
+  if (url.startsWith('http')) {
+    return `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+  }
+  return url;
+};
   
 
 function Home() {
@@ -154,7 +164,7 @@ function Home() {
                       style={{ cursor: 'pointer' }}
                     >
                       <img
-                        src={manhwa.cover}
+                        src={getCorsProxyUrl(manhwa.cover)}
                         alt={manhwa.title || 'No title available'}
                         className="featured-manhwa-image"
                       />
@@ -186,7 +196,7 @@ function Home() {
                       style={{ cursor: 'pointer' }}
                     >
                       <img
-                        src={manhwa.cover}
+                        src={getCorsProxyUrl(manhwa.cover)}
                         alt={manhwa.title || 'No title available'}
                         className="latest-manhwa-image"
                       />
@@ -218,11 +228,11 @@ function Home() {
                     onClick={() => handleManhwaClick(manhwa)}
                     style={{ cursor: 'pointer' }}
                   >
-                    <img
-                      src={manhwa.cover}
-                      alt={manhwa.title || 'No title available'}
-                      className="popular-manhwa-image"
-                    />
+                      <img
+                        src={getCorsProxyUrl(manhwa.cover)}
+                        alt={manhwa.title || 'No title available'}
+                        className="popular-manhwa-image"
+                      />
                     <div className="popular-manhwa-text">
                       <h3>{manhwa.title || 'No title available'}</h3>
                       <p className="popular-chapter">

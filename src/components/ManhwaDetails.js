@@ -28,6 +28,15 @@ const logoMap = {
 const ManhwaDetails = ({ manhwa, onBack }) => {
   if (!manhwa) return null;
 
+  // Helper function to prepend CORS proxy to cover URLs
+  const getCorsProxyUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http')) {
+      return `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+    }
+    return url;
+  };
+
   // Convert totalChapters to string for consistent display
   const totalChapters = manhwa.totalChapters !== undefined && manhwa.totalChapters !== null
     ? String(manhwa.totalChapters)
@@ -44,7 +53,7 @@ const ManhwaDetails = ({ manhwa, onBack }) => {
     <div className="manhwa-details-container">
       <div className="manhwa-left-panel">
         <img
-          src={manhwa.cover || ''}
+          src={getCorsProxyUrl(manhwa.cover) || ''}
           alt={manhwa.title || 'Manhwa Cover'}
           className="manhwa-cover-image"
         />
