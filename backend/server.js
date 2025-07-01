@@ -76,7 +76,7 @@ featuredManhwas = response.data.data.map((manga) => {
   const coverRel = manga.relationships.find((rel) => rel.type === 'cover_art');
   const coverUrl = coverRel
     ? `https://uploads.mangadex.org/covers/${manga.id}/${coverRel.attributes.fileName}`
-    : 'https://via.placeholder.com/150';
+    : '';
   console.log(`Featured Manhwa cover URL for ${manga.id}: ${coverUrl}`);
   return {
     id: manga.id,
@@ -120,7 +120,7 @@ const fetchLatestManhwas = async () => {
             title: manga.attributes.title?.en || manga.attributes.title?.['ja-ro'] || manga.attributes.title?.['ja'] || 'No title available',
             cover: manga.relationships.find((rel) => rel.type === 'cover_art')
               ? `https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === 'cover_art').attributes.fileName}`
-              : 'https://via.placeholder.com/150',
+              : '',
             latestChapter: latestChapterData?.attributes?.chapter || 'No chapter available',
             readableAt: latestChapterData?.attributes?.readableAt || '',
           };
@@ -192,9 +192,9 @@ const fetchPopularManhwas = async () => {
           return {
             id: manga.id,
             title: manga.attributes.title.en || 'No title available',
-            cover: manga.relationships.find((rel) => rel.type === 'cover_art')
+      cover: manga.relationships.find((rel) => rel.type === 'cover_art')
               ? `https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === 'cover_art').attributes.fileName}`
-              : 'https://via.placeholder.com/150',
+              : '',
             author: manga.relationships.find((rel) => rel.type === 'author')
               ? manga.relationships.find((rel) => rel.type === 'author').attributes.name
               : 'Unknown Author',
@@ -248,9 +248,9 @@ app.get('/api/genre-manhwa', async (req, res) => {
     const genreManhwas = response.data.data.map((manga) => ({
       id: manga.id,
       title: manga.attributes.title.en || 'No title available',
-      cover: manga.relationships.find((rel) => rel.type === 'cover_art')
-        ? `https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === 'cover_art').attributes.fileName}`
-        : 'https://via.placeholder.com/150',
+            cover: manga.relationships.find((rel) => rel.type === 'cover_art')
+              ? `https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === 'cover_art').attributes.fileName}`
+              : '',
     }));
 
     res.json(genreManhwas);
@@ -285,7 +285,7 @@ app.get('/api/random-manhwa', async (req, res) => {
       summary: randomManga.attributes.description?.en || 'No summary available',
       cover: coverRel
         ? `https://uploads.mangadex.org/covers/${randomManga.id}/${coverRel.attributes.fileName}`
-        : 'https://via.placeholder.com/300x400.png?text=No+Cover',
+        : '',
       author: authorRel?.attributes?.name || 'Unknown Author',
       artist: artistRel?.attributes?.name || 'Unknown Artist',
       year: randomManga.attributes.year || 'Unknown',
@@ -397,7 +397,7 @@ app.get('/api/manhwa/:id', async (req, res) => {
     const coverRel = manga.relationships.find((rel) => rel.type === 'cover_art');
     const cover = coverRel
       ? `https://uploads.mangadex.org/covers/${manhwaId}/${coverRel.attributes.fileName}`
-      : 'https://via.placeholder.com/150';
+      : '';
 
     // Extract author(s)
     const authors = manga.relationships
@@ -592,7 +592,7 @@ app.get('/api/search-manhwa', async (req, res) => {
           title: manga.attributes.title.en || 'No title available',
           cover: coverRel
             ? `https://uploads.mangadex.org/covers/${manga.id}/${coverRel.attributes.fileName}`
-            : 'https://via.placeholder.com/150',
+            : '',
           author: authorRel ? authorRel.attributes.name : 'Unknown Author',
           artist: artistRel ? artistRel.attributes.name : 'Unknown Artist',
           rating: rating !== null ? parseFloat(rating) : 0,
