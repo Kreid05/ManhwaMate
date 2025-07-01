@@ -19,7 +19,7 @@ function About() {
             Alcovendas, Limuel
           </div>
           <div className="footer-social-icons">
-            <a href="https://www.facebook.com/insane1989" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href="https://www.facebook.com/kreid05/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <FaFacebookF />
             </a>
             <a href="https://x.com/lm_lcvnds" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
