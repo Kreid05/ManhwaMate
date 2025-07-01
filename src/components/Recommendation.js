@@ -6,6 +6,15 @@ import './Recommendation.css';
 import surpriseMeImage from '../assets/images/surprise me white.png';
 
 function Recommendation() {
+  // Helper function to prepend CORS proxy to cover URLs
+  const getCorsProxyUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http')) {
+      return `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+    }
+    return url;
+  };
+
   const [messages, setMessages] = useState([
     { text: 'Hello! How can I help you find your next favorite manhwa or manga?', sender: 'bot' },
   ]);
@@ -75,7 +84,7 @@ function Recommendation() {
           randomManhwa && (
             <div className="surprise-card">
               <img
-                src={randomManhwa.cover}
+                src={getCorsProxyUrl(randomManhwa.cover)}
                 alt="Manhwa Cover"
                 className="surprise-card-image"
               />
